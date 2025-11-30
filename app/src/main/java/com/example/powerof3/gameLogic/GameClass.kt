@@ -1,7 +1,5 @@
 package com.example.powerof3.gameLogic
 
-import androidx.compose.ui.text.Paragraph
-
 enum class Moves {UP, DOWN, LEFT, RIGHT}
 
 
