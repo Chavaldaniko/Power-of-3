@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Power of 3</string>
+    <string name="DataEntering">Введите данные</string>
+    <string name="EnterName">Ваше имя</string>
+    <string name="EnterBoardSize">Введите размер доски</string>
+    <string name="Agreement">Подтвердить</string>
+    <string name="FillFields">Заполните все поля</string>
 </resources>

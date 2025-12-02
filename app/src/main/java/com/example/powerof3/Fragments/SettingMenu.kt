@@ -7,8 +7,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.example.powerof3.R
 
 data class UserInput(
     val name: String = "",
@@ -41,7 +43,7 @@ fun InputFragment(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = "Введите данные",
+                    text = stringResource(R.string.DataEntering),
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -51,8 +53,8 @@ fun InputFragment(
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Ваше имя") },
-                    placeholder = { Text("Введите имя") },
+                    label = { Text(stringResource(R.string.EnterName)) },
+                    placeholder = { Text(stringResource(R.string.EnterName)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -60,7 +62,7 @@ fun InputFragment(
                 OutlinedTextField(
                     value = numberText,
                     onValueChange = { if (it.matches(Regex("^\\d*$"))) numberText = it },
-                    label = { Text("Введите число") },
+                    label = { Text(stringResource(R.string.EnterBoardSize)) },
                     placeholder = { Text("0") },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
@@ -79,12 +81,12 @@ fun InputFragment(
                     enabled = name.isNotEmpty() && numberText.isNotEmpty(),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Подтвердить")
+                    Text(stringResource(R.string.Agreement))
                 }
 
                 if (name.isEmpty() || numberText.isEmpty()) {
                     Text(
-                        text = "Заполните все поля",
+                        text = stringResource(R.string.FillFields),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.error
                     )
