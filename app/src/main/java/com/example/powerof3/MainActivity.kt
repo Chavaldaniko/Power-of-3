@@ -45,6 +45,5 @@ class MainActivity : ComponentActivity() {
 
     private fun GameObject(name: String, number: Int) {
         println("GameObject: Имя=$name, Число=$number")
-        // TODO: Реализовать логику
     }
 }
