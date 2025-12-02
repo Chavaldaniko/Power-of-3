@@ -36,7 +36,7 @@ class GameBoard(private val size: Int) {
             score += rowScore
         }
 
-        return Pair<Boolean, Int>(isMoved, score)
+        return Pair(isMoved, score)
     }
 
     fun moveRight() : Pair<Boolean, Int> {
@@ -48,7 +48,7 @@ class GameBoard(private val size: Int) {
             score += rowScore
         }
 
-        return Pair<Boolean, Int>(isMoved, score)
+        return Pair(isMoved, score)
     }
 
     fun moveUp() : Pair<Boolean, Int> {
@@ -153,8 +153,8 @@ class GameBoard(private val size: Int) {
 
     private fun leftMoveRow(row: Int) : Pair<Boolean, Int> {
 
+        var isMoved = false
         var score = 0
-
         val nonEmptyTiles = mutableListOf<Int>()
 
         for (i in 0..size-1) {
@@ -174,12 +174,16 @@ class GameBoard(private val size: Int) {
                 nonEmptyTiles[i+1] == nonEmptyTiles[i+2]) {
 
                 board[row][curIdx] = nonEmptyTiles[i] * 3
+                isMoved = true
                 i += 3
                 score += board[row][curIdx]
                 curIdx++
             }
 
             else {
+                if (board[row][curIdx] != nonEmptyTiles[i]) {
+                    isMoved = true
+                }
                 board[row][curIdx] = nonEmptyTiles[i]
                 i++
                 curIdx++
@@ -190,13 +194,13 @@ class GameBoard(private val size: Int) {
         for (i in curIdx..size - 1) {
             board[row][i] = 0
         }
-        return Pair<Boolean, Int>(curIdx != size, score)
+        return Pair(isMoved, score)
     }
 
     private fun rightMoveRow(row: Int) : Pair<Boolean, Int> {
 
         var score = 0
-
+        var isMoved = false
         val nonEmptyTiles = mutableListOf<Int>()
 
         for (i in 0..size-1) {
@@ -216,12 +220,16 @@ class GameBoard(private val size: Int) {
                 nonEmptyTiles[i-1] == nonEmptyTiles[i-2]) {
 
                 board[row][curIdx] = nonEmptyTiles[i] * 3
+                isMoved = true
                 i -= 3
                 score += board[row][curIdx]
                 curIdx--
             }
 
             else {
+                if (board[row][curIdx] != nonEmptyTiles[i]) {
+                    isMoved = true
+                }
                 board[row][curIdx] = nonEmptyTiles[i]
                 i--
                 curIdx--
@@ -232,13 +240,13 @@ class GameBoard(private val size: Int) {
         for (i in 0..curIdx) {
             board[row][i] = 0
         }
-        return Pair<Boolean, Int>(curIdx != -1, score)
+        return Pair(isMoved, score)
     }
 
     private fun upMoveCol(col: Int) : Pair<Boolean, Int> {
 
         var score = 0
-
+        var isMoved = false
         val nonEmptyTiles = mutableListOf<Int>()
 
         for (i in 0..size-1) {
@@ -258,12 +266,16 @@ class GameBoard(private val size: Int) {
                 nonEmptyTiles[i+1] == nonEmptyTiles[i+2]) {
 
                 board[curIdx][col] = nonEmptyTiles[i] * 3
+                isMoved = true
                 i += 3
                 score += board[curIdx][col]
                 curIdx++
             }
 
             else {
+                if (board[curIdx][col] != nonEmptyTiles[i]) {
+                    isMoved = true
+                }
                 board[curIdx][col] = nonEmptyTiles[i]
                 i++
                 curIdx++
@@ -274,13 +286,13 @@ class GameBoard(private val size: Int) {
         for (i in curIdx..size - 1) {
             board[i][col] = 0
         }
-        return Pair<Boolean, Int>(curIdx != size, score)
+        return Pair(isMoved, score)
     }
 
     private fun downMoveCol(col: Int) : Pair<Boolean, Int> {
 
         var score = 0
-
+        var isMoved = false
         val nonEmptyTiles = mutableListOf<Int>()
 
         for (i in 0..size-1) {
@@ -300,12 +312,16 @@ class GameBoard(private val size: Int) {
                 nonEmptyTiles[i-1] == nonEmptyTiles[i-2]) {
 
                 board[curIdx][col] = nonEmptyTiles[i] * 3
+                isMoved = true
                 i -= 3
                 score += board[curIdx][col]
                 curIdx--
             }
 
             else {
+                if (board[curIdx][col] != nonEmptyTiles[i]) {
+                    isMoved = true
+                }
                 board[curIdx][col] = nonEmptyTiles[i]
                 i--
                 curIdx--
@@ -316,10 +332,8 @@ class GameBoard(private val size: Int) {
         for (i in 0..curIdx) {
             board[i][col] = 0
         }
-        return Pair<Boolean, Int>(curIdx != -1, score)
+        return Pair(isMoved, score)
     }
-
-
 
 
 }

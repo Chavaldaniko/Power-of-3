@@ -68,7 +68,7 @@ fun printGame(gameClass: GameClass) {
 
 fun main() {
 
-    val g = GameClass(2)
+    val g = GameClass(3)
     g.startGame()
     while (!g.isGameOver()) {
 
@@ -85,6 +85,4 @@ fun main() {
 
     }
     print("GameOver");
-
-
 }
