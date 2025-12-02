@@ -4,44 +4,47 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.powerof3.ui.theme.PowerOf3Theme
+import com.example.powerof3.Fragments.InputFragment
+import com.example.powerof3.Fragments.ShowPNGOnWhiteBackground
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
-            PowerOf3Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            var showInputFragment by remember { mutableStateOf(true) }
+
+            Box(Modifier.fillMaxSize()) {
+                ShowPNGOnWhiteBackground()
+
+                if (showInputFragment) {
+                    InputFragment { userInput ->
+                        val name = userInput.name
+                        val number = userInput.number
+
+                        println("Имя пользователя: $name")
+                        println("Введенное число: $number")
+
+                        showInputFragment = false
+
+                        if (number != null) {
+                            GameObject(name, number)
+                        }
+
+
+                    }
                 }
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PowerOf3Theme {
-        Greeting("Android")
+    private fun GameObject(name: String, number: Int) {
+        println("GameObject: Имя=$name, Число=$number")
+        // TODO: Реализовать логику
     }
 }
