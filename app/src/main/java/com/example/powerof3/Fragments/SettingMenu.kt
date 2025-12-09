@@ -60,7 +60,7 @@ fun InputFragment(
                 OutlinedTextField(
                     value = numberText,
                     onValueChange = { if (it.matches(Regex("^\\d*$"))) numberText = it },
-                    label = { Text("Введите число") },
+                    label = { Text("Введите размер поля") },
                     placeholder = { Text("0") },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),

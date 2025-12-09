@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.example.powerof3.Fragments.InputFragment
 import com.example.powerof3.Fragments.ShowPNGOnWhiteBackground
+import com.example.powerof3.Fragments.GameScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,32 +19,28 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             var showInputFragment by remember { mutableStateOf(true) }
+            var gameSize by remember { mutableStateOf<Int?>(null) }
+            var userName by remember { mutableStateOf("") }
 
             Box(Modifier.fillMaxSize()) {
                 ShowPNGOnWhiteBackground()
 
                 if (showInputFragment) {
                     InputFragment { userInput ->
-                        val name = userInput.name
-                        val number = userInput.number
+                        userName = userInput.name
+                        gameSize = userInput.number
 
-                        println("Имя пользователя: $name")
-                        println("Введенное число: $number")
+                        println("Имя пользователя: $userName")
+                        println("Введенное число: $gameSize")
 
                         showInputFragment = false
-
-                        if (number != null) {
-                            GameObject(name, number)
-                        }
-
-
+                    }
+                } else {
+                    gameSize?.let { size ->
+                        GameScreen(size = size)
                     }
                 }
             }
         }
-    }
-
-    private fun GameObject(name: String, number: Int) {
-        println("GameObject: Имя=$name, Число=$number")
     }
 }
