@@ -11,6 +11,10 @@ class GameBoard(private val size: Int) {
         return size
     }
 
+    fun getBoard() : Array<Array<Int>> {
+        return board
+    }
+
     fun clear() {
         for (row in 0..size-1) {
             for (col in 0..size-1) {

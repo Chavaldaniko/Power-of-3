@@ -1,15 +1,19 @@
 package com.example.powerof3.gameLogic
 
+import android.app.GameManager
+
 enum class Moves {UP, DOWN, LEFT, RIGHT}
 
-
+data class GameState(val board: Array<Array<Int>>, val scores: Int,
+                     val isGameOver: Boolean)
 class GameClass(private val boardSize: Int) {
 
     private val board = GameBoard(boardSize)
     private var scores = 0
-    private var gameOver = false
+    private var gameOver = true
 
     fun startGame() {
+        gameOver = false
         scores = 0
         board.clear()
         board.addRandom()
@@ -35,54 +39,31 @@ class GameClass(private val boardSize: Int) {
         }
     }
 
-    fun isGameOver() : Boolean {
-        return gameOver
+
+    fun getState() : GameState {
+        return GameState(board.getBoard(), scores, gameOver)
     }
 
-    fun getScores() : Int {
-        return scores
-    }
-    fun getBoardSize() : Int {
-        return boardSize
-    }
 
-    fun getCellValue(row: Int, col: Int) : Int {
-
-        return board.getElementValue(row, col)
-
-    }
-
-}
-
-fun printGame(gameClass: GameClass) {
-
-    println("Scores : ${gameClass.getScores()}")
-    for (row in 0..gameClass.getBoardSize() - 1) {
-        for (col in 0..gameClass.getBoardSize() - 1) {
-            print(String.format("% 10d", gameClass.getCellValue(row, col)))
-        }
-        println()
-    }
-    println()
 }
 
 fun main() {
 
-    val g = GameClass(3)
-    g.startGame()
-    while (!g.isGameOver()) {
+    val game = GameClass(5)
+    game.startGame()
+    game.makeMove(Moves.UP)
+    game.makeMove(Moves.UP)
 
-        printGame(g)
-        print("Next move(WASD): ")
-        val move = readln()
-        when (move) {
-            "w" -> g.makeMove(Moves.UP)
-            "a" -> g.makeMove(Moves.LEFT)
-            "s" -> g.makeMove(Moves.DOWN)
-            "d" -> g.makeMove(Moves.RIGHT)
-            "e" -> break
+    val state = game.getState()
+    println(state.isGameOver)
+    println(state.scores)
+    val board = state.board
+    for (i in 0..board.size - 1) {
+        for (j in 0..board[0].size - 1) {
+            print("${board[i][j]} ")
         }
-
+        println()
     }
-    print("GameOver");
+    println()
+
 }
