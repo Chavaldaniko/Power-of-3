@@ -53,27 +53,22 @@ fun GameScreen(size: Int) {
                         if (firstChange != null) {
                             when (firstChange.positionChanged()) {
                                 true -> {
-                                    // Палец двигается
                                     val currentX = firstChange.position.x
                                     val currentY = firstChange.position.y
 
-                                    // Вычисляем разницу от начальной точки
                                     val deltaX = currentX - startX
                                     val deltaY = currentY - startY
 
                                     val currentTime = System.currentTimeMillis()
 
-                                    // Проверяем задержку
                                     if (currentTime - lastSwipeTime > 100) {
-                                        // Минимальное расстояние для свайпа
-                                        val minDistance = 30f
+                                        val minDistance = 400f
 
                                         if (abs(deltaX) > minDistance || abs(deltaY) > minDistance) {
                                             lastSwipeTime = currentTime
 
                                             println("TOUCH MOVE: dx=$deltaX, dy=$deltaY")
 
-                                            // Определяем направление
                                             if (abs(deltaX) > abs(deltaY)) {
                                                 if (deltaX > 0) {
                                                     println("→ RIGHT")
@@ -92,27 +87,22 @@ fun GameScreen(size: Int) {
                                                 }
                                             }
 
-                                            // Сбрасываем начальную точку для следующего свайпа
                                             startX = currentX
                                             startY = currentY
                                         }
                                     }
                                 }
                                 false -> {
-                                    // Палец только прикоснулся или отпущен
                                     if (firstChange.pressed) {
-                                        // Начало касания
                                         startX = firstChange.position.x
                                         startY = firstChange.position.y
                                         println("TOUCH START: ($startX, $startY)")
                                     } else {
-                                        // Конец касания
                                         println("TOUCH END")
                                     }
                                 }
                             }
 
-                            // Обновляем состояние касания
                             if (firstChange.pressed) {
                                 firstChange.consume()
                             }
