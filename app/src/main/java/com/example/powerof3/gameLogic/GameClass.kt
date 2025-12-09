@@ -40,8 +40,12 @@ class GameClass(private val boardSize: Int) {
     }
 
 
-    fun getState() : GameState {
-        return GameState(board.getBoard(), scores, gameOver)
+    fun getState(): GameState {
+        return GameState(
+            board.getBoard().map { it.copyOf() }.toTypedArray(),
+            scores,
+            gameOver
+        )
     }
 
 

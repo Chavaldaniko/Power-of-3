@@ -14,6 +14,7 @@ import com.example.powerof3.gameLogic.GameState
 import kotlinx.coroutines.CoroutineScope
 import kotlin.math.abs
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.input.pointer.positionChanged
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -23,15 +24,10 @@ import kotlin.math.sqrt
 
 @Composable
 fun GameScreen(size: Int) {
-    val viewModel = remember { GameViewModel(size = size) }
 
-    val gameState: GameState by viewModel.gameState.observeAsState(
-        GameState(
-            Array(size) { Array(size) { 0 } },
-            0,
-            false
-        )
-    )
+    val viewModel = remember { GameViewModel(size = size) }
+    val gameState by viewModel.gameState.collectAsState()
+
 
     val density = LocalDensity.current
     val threshold = remember(density) { with(density) { 10.dp.toPx() } }

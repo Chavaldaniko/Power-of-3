@@ -27,7 +27,6 @@ fun GameBoardComposable(
     val gridSize = gameState.board.size
     BoxWithConstraints(modifier = modifier.fillMaxSize()) {
         val cellSize = min(maxWidth, maxHeight) / gridSize
-        // Фон сетки
         Column(modifier = Modifier.fillMaxSize()) {
             repeat(gridSize) { row ->
                 Row(modifier = Modifier.weight(1f)) {
