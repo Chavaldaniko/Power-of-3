@@ -1,26 +1,14 @@
 package com.example.powerof3.Fragments
 
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.dp
-import com.example.powerof3.gameLogic.GameState
-import kotlinx.coroutines.CoroutineScope
 import kotlin.math.abs
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.input.pointer.positionChanged
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlin.coroutines.coroutineContext
-import kotlin.math.atan2
-import kotlin.math.sqrt
 
 @Composable
 fun GameScreen(size: Int) {
@@ -28,9 +16,6 @@ fun GameScreen(size: Int) {
     val viewModel = remember { GameViewModel(size = size) }
     val gameState by viewModel.gameState.collectAsState()
 
-
-    val density = LocalDensity.current
-    val threshold = remember(density) { with(density) { 10.dp.toPx() } }
 
     GameBoardComposable(
         gameState = gameState,

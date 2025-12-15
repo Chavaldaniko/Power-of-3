@@ -21,6 +21,8 @@ fun InputFragment(
 ) {
     var name by remember { mutableStateOf("") }
     var numberText by remember { mutableStateOf("") }
+    var showError by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
 
     Column(
@@ -59,22 +61,57 @@ fun InputFragment(
 
                 OutlinedTextField(
                     value = numberText,
-                    onValueChange = { if (it.matches(Regex("^\\d*$"))) numberText = it },
-                    label = { Text("Введите размер поля") },
+                    onValueChange = {
+                        if (it.matches(Regex("^\\d*$"))) {
+                            numberText = it
+                            showError = false
+                        }
+                    },
+                    label = { Text("Введите размер поля (3-15)") },
                     placeholder = { Text("0") },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    isError = showError,
+                    supportingText = {
+                        if (showError) {
+                            Text(
+                                text = errorMessage,
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
+                    }
                 )
 
                 Button(
                     onClick = {
+                        val number = numberText.toIntOrNull()
+
+                        if (number == null) {
+                            errorMessage = "Введите число"
+                            showError = true
+                            return@Button
+                        }
+
+                        if (number < 3) {
+                            errorMessage = "Размер поля должен быть не менее 3"
+                            showError = true
+                            return@Button
+                        }
+
+                        if (number > 15) {
+                            errorMessage = "Размер поля должен быть не более 15"
+                            showError = true
+                            return@Button
+                        }
+
                         val userInput = UserInput(
                             name = name,
-                            number = numberText.toIntOrNull()
+                            number = number
                         )
                         onInputComplete(userInput)
                         focusManager.clearFocus()
+                        showError = false
                     },
                     enabled = name.isNotEmpty() && numberText.isNotEmpty(),
                     modifier = Modifier.fillMaxWidth()

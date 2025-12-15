@@ -7,10 +7,6 @@ class GameBoard(private val size: Int) {
         0
     } }
 
-    fun getSize() : Int {
-        return size
-    }
-
     fun getBoard() : Array<Array<Int>> {
         return board
     }
@@ -21,10 +17,6 @@ class GameBoard(private val size: Int) {
                 board[row][col] = 0
             }
         }
-    }
-
-    fun getElementValue(row: Int, col: Int) : Int {
-        return board[row][col]
     }
 
     fun set(row: Int, col: Int, v: Int) {
@@ -64,7 +56,7 @@ class GameBoard(private val size: Int) {
             score += colScore
         }
 
-        return Pair<Boolean, Int>(isMoved, score)
+        return Pair(isMoved, score)
     }
 
     fun moveDown() : Pair<Boolean, Int> {
@@ -94,8 +86,8 @@ class GameBoard(private val size: Int) {
             return
         }
 
-        val isOne = Random.nextInt(0, 3) <= 1;
-        val idx = Random.nextInt(0, emptyCells.size);
+        val isOne = Random.nextInt(0, 3) <= 1
+        val idx = Random.nextInt(0, emptyCells.size)
 
 
         if (isOne) {
@@ -338,6 +330,5 @@ class GameBoard(private val size: Int) {
         }
         return Pair(isMoved, score)
     }
-
 
 }
