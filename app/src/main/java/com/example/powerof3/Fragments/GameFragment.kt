@@ -1,26 +1,27 @@
 package com.example.powerof3.Fragments
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import kotlin.math.abs
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.input.pointer.positionChanged
+import kotlin.math.abs
+import com.example.powerof3.ui.theme.GameColors
 
 @Composable
 fun GameScreen(size: Int) {
-
     val viewModel = remember { GameViewModel(size = size) }
     val gameState by viewModel.gameState.collectAsState()
 
-
-    GameBoardComposable(
-        gameState = gameState,
+    Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(GameColors.ScreenBackground)
             .pointerInput(Unit) {
                 var startX = 0f
                 var startY = 0f
@@ -91,5 +92,10 @@ fun GameScreen(size: Int) {
                     }
                 }
             }
-    )
+    ) {
+        GameBoardComposable(
+            gameState = gameState,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
 }

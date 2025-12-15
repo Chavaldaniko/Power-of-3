@@ -1,13 +1,9 @@
 package com.example.powerof3.Fragments
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.powerof3.gameLogic.GameState
 import com.example.powerof3.gameLogic.GameClass
 import com.example.powerof3.gameLogic.Moves
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -44,17 +40,3 @@ class GameViewModel(val size: Int) : ViewModel() {
         _gameState.value = game.getState()
     }
 }
-
-//fun show(state: GameState)
-//{
-//    println(state.isGameOver)
-//    println(state.scores)
-//    val board = state.board
-//    for (i in 0..board.size - 1) {
-//        for (j in 0..board[0].size - 1) {
-//            print("${board[i][j]} ")
-//        }
-//        println()
-//    }
-//    println()
-//}
