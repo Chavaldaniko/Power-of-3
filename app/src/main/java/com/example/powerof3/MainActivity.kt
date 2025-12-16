@@ -8,16 +8,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.example.powerof3.Fragments.InputFragment
-import com.example.powerof3.Fragments.ShowPNGOnWhiteBackground
-import com.example.powerof3.Fragments.GameScreen
+import com.example.powerof3.Fragments.*
 import com.example.powerof3.repository.RecordsRepository
 import androidx.room.Room
 import com.example.powerof3.database.DataBase
 
 class MainActivity : ComponentActivity() {
 
-    // Объявляем как lateinit
     private lateinit var database: DataBase
     private lateinit var repository: RecordsRepository
 
@@ -36,33 +33,45 @@ class MainActivity : ComponentActivity() {
         repository = RecordsRepository(database.recordsDAO())
 
         setContent {
-            var showInputFragment by remember { mutableStateOf(true) }
+            var currentScreen by remember { mutableStateOf<AppScreen>(AppScreen.InputFragment) }
             var gameSize by remember { mutableStateOf<Int?>(null) }
             var userName by remember { mutableStateOf("") }
 
             Box(Modifier.fillMaxSize()) {
                 ShowPNGOnWhiteBackground()
 
-                if (showInputFragment) {
-                    InputFragment { userInput ->
-                        userName = userInput.name
-                        gameSize = userInput.number
-
-                        println("Имя пользователя: $userName")
-                        println("Введенное число: $gameSize")
-
-                        showInputFragment = false
+                when (currentScreen) {
+                    AppScreen.InputFragment -> {
+                        InputFragment { userInput ->
+                            userName = userInput.name
+                            gameSize = userInput.number
+                            currentScreen = AppScreen.GameScreen
+                        }
                     }
-                } else {
-                    gameSize?.let { size ->
-                        GameScreen(
-                            size = size,
-                            playerName = userName,
+
+                    AppScreen.GameScreen -> {
+                        gameSize?.let { size ->
+                            GameScreen(
+                                size = size,
+                                playerName = userName,
+                                recordsRepository = repository,
+                                onGameFinished = {
+                                    currentScreen = AppScreen.InputFragment
+                                    gameSize = null
+                                    userName = ""
+                                },
+                                onViewRecords = {
+                                    currentScreen = AppScreen.RecordsFragment
+                                }
+                            )
+                        }
+                    }
+
+                    AppScreen.RecordsFragment -> {
+                        RecordsFragment(
                             recordsRepository = repository,
-                            onGameFinished = {
-                                showInputFragment = true
-                                gameSize = null
-                                userName = ""
+                            onNavigateBack = {
+                                currentScreen = AppScreen.GameScreen
                             }
                         )
                     }
@@ -74,5 +83,11 @@ class MainActivity : ComponentActivity() {
     override fun onDestroy() {
         database.close()
         super.onDestroy()
+    }
+
+    sealed class AppScreen {
+        object InputFragment : AppScreen()
+        object GameScreen : AppScreen()
+        object RecordsFragment : AppScreen()
     }
 }

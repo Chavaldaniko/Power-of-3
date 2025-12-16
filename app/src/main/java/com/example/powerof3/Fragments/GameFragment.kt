@@ -1,17 +1,10 @@
 package com.example.powerof3.Fragments
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -25,7 +18,8 @@ fun GameScreen(
     size: Int,
     playerName: String,
     recordsRepository: RecordsRepository,
-    onGameFinished: () -> Unit = {}
+    onGameFinished: () -> Unit = {},
+    onViewRecords: () -> Unit = {}
 ) {
     val viewModel = remember { GameViewModel(size, playerName, recordsRepository) }
     val gameState by viewModel.gameState.collectAsState()
@@ -110,6 +104,7 @@ fun GameScreen(
                 modifier = Modifier.fillMaxSize()
             )
 
+            // Счетчик очков в верхнем правом углу
             Box(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -118,12 +113,37 @@ fun GameScreen(
                 Card(
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer
-                    )
+                    ),
+                    shape = RoundedCornerShape(12.dp)
                 ) {
                     Text(
                         text = "Счет: ${gameState.scores}",
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                         style = MaterialTheme.typography.titleMedium
+                    )
+                }
+            }
+
+            // Кнопка рекордов в верхнем левом углу
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(16.dp)
+            ) {
+                IconButton(
+                    onClick = onViewRecords,
+                    modifier = Modifier
+                        .size(56.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.primary,
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                ) {
+                    Icon(
+                        painter = androidx.compose.ui.res.painterResource(android.R.drawable.ic_menu_sort_by_size),
+                        contentDescription = "Рекорды",
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.size(28.dp)
                     )
                 }
             }

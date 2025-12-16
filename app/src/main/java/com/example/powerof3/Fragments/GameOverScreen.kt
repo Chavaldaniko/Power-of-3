@@ -47,7 +47,6 @@ fun GameOverScreen(
                     color = DividerDefaults.color
                 )
 
-                // Информация о результате
                 ResultItem(
                     title = "Игрок",
                     value = playerName
