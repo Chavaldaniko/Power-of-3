@@ -38,7 +38,6 @@ class MainActivity : ComponentActivity() {
             var userName by remember { mutableStateOf("") }
 
             Box(Modifier.fillMaxSize()) {
-                ShowPNGOnWhiteBackground()
 
                 when (currentScreen) {
                     AppScreen.InputFragment -> {

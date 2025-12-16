@@ -23,6 +23,7 @@ fun GameOverScreen(
             .background(com.example.powerof3.ui.theme.GameColors.ScreenBackground),
         contentAlignment = Alignment.Center
     ) {
+        // Карточка с результатами
         Card(
             modifier = Modifier
                 .fillMaxWidth(0.8f)
@@ -88,6 +89,8 @@ fun GameOverScreen(
                 )
             }
         }
+
+        GameOverPicture()
     }
 }
 

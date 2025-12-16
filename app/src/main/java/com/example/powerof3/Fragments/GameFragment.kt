@@ -23,9 +23,8 @@ fun GameScreen(
 ) {
     val viewModel = remember { GameViewModel(size, playerName, recordsRepository) }
     val gameState by viewModel.gameState.collectAsState()
-    val isGameFinished by viewModel.isGameFinished.collectAsState()
 
-    if (isGameFinished) {
+    if (gameState.isGameOver) {
         GameOverScreen(
             finalScore = gameState.scores,
             playerName = playerName,
@@ -104,7 +103,6 @@ fun GameScreen(
                 modifier = Modifier.fillMaxSize()
             )
 
-            // Счетчик очков в верхнем правом углу
             Box(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -124,7 +122,6 @@ fun GameScreen(
                 }
             }
 
-            // Кнопка рекордов в верхнем левом углу
             Box(
                 modifier = Modifier
                     .align(Alignment.TopStart)
@@ -147,6 +144,8 @@ fun GameScreen(
                     )
                 }
             }
+
+            ShowMainPicture()
         }
     }
 }
