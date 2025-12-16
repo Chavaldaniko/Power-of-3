@@ -46,5 +46,4 @@ class GameClass(private val boardSize: Int) {
         )
     }
 
-
 }

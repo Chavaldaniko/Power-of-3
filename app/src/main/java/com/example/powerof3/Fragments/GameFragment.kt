@@ -58,24 +58,12 @@ fun GameScreen(
                                         val currentTime = System.currentTimeMillis()
 
                                         if (currentTime - lastSwipeTime > 100) {
-                                            val minDistance = 400f
+                                            val minDistance = 200f
 
                                             if (abs(deltaX) > minDistance || abs(deltaY) > minDistance) {
                                                 lastSwipeTime = currentTime
 
-                                                if (abs(deltaX) > abs(deltaY)) {
-                                                    if (deltaX > 0) {
-                                                        viewModel.moveRight()
-                                                    } else {
-                                                        viewModel.moveLeft()
-                                                    }
-                                                } else {
-                                                    if (deltaY > 0) {
-                                                        viewModel.moveDown()
-                                                    } else {
-                                                        viewModel.moveUp()
-                                                    }
-                                                }
+                                                viewModel.moveProcess(deltaX, deltaY)
 
                                                 startX = currentX
                                                 startY = currentY

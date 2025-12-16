@@ -9,6 +9,7 @@ import com.example.powerof3.repository.RecordsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 
 class GameViewModel(
     val size: Int,
@@ -21,7 +22,6 @@ class GameViewModel(
     )
     private val _isGameFinished = MutableStateFlow(false)
     val gameState: StateFlow<GameState> = _gameState
-    val isGameFinished: StateFlow<Boolean> = _isGameFinished
 
     init {
         game.startGame()
@@ -73,6 +73,22 @@ class GameViewModel(
 
         if (newState.isGameOver) {
             finishGame()
+        }
+    }
+
+    fun moveProcess(deltaX: Float, deltaY: Float) {
+        if (abs(deltaX) > abs(deltaY)) {
+            if (deltaX > 0) {
+                moveRight()
+            } else {
+                moveLeft()
+            }
+        } else {
+            if (deltaY > 0) {
+                moveDown()
+            } else {
+                moveUp()
+            }
         }
     }
 
