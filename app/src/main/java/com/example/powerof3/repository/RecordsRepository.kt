@@ -18,4 +18,8 @@ class RecordsRepository(private val dao: DAORecords) {
     suspend fun getAllRecords(): List<RecordEntity> {
         return dao.getAllRecords()
     }
+
+    suspend fun deleteAllRecords() {
+        dao.deleteAllRecords()
+    }
 }

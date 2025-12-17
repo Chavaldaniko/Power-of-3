@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
         )
             .fallbackToDestructiveMigration(false)
             .build()
-
+3
         repository = RecordsRepository(database.recordsDAO())
 
         setContent {

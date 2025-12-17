@@ -14,4 +14,7 @@ interface DAORecords {
     @Query("SELECT * FROM record")
     suspend fun getAllRecords(): List<RecordEntity>
 
+    @Query("DELETE FROM record")
+    suspend fun deleteAllRecords()
+
 }

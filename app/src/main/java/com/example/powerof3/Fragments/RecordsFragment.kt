@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,9 +27,9 @@ fun RecordsFragment(
 ) {
     var records by remember { mutableStateOf<List<RecordEntity>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
+    var showDeleteDialog by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
 
-    // Загружаем рекорды при открытии экрана
     LaunchedEffect(Unit) {
         coroutineScope.launch {
             records = recordsRepository.getAllRecords()
@@ -44,15 +46,30 @@ fun RecordsFragment(
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
-                            androidx.compose.material.icons.Icons.Default.ArrowBack,
+                            Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Назад к игре"
                         )
+                    }
+                },
+                actions = {
+                    if (records.isNotEmpty()) {
+                        IconButton(
+                            onClick = { showDeleteDialog = true },
+                            enabled = !isLoading
+                        ) {
+                            Icon(
+                                Icons.Default.Delete,
+                                contentDescription = "Удалить все записи",
+                                tint = if (isLoading) Color.Gray else Color.White
+                            )
+                        }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = Color.White,
-                    navigationIconContentColor = Color.White
+                    navigationIconContentColor = Color.White,
+                    actionIconContentColor = Color.White
                 )
             )
         }
@@ -98,6 +115,36 @@ fun RecordsFragment(
                 }
             }
         }
+    }
+
+    if (showDeleteDialog) {
+        AlertDialog(
+            onDismissRequest = { showDeleteDialog = false },
+            title = {
+                Text("Удаление всех записей", fontWeight = FontWeight.Bold)
+            },
+            text = {
+                Text("Вы уверены, что хотите удалить все рекорды? Это действие нельзя отменить.")
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showDeleteDialog = false
+                        coroutineScope.launch {
+                            recordsRepository.deleteAllRecords()
+                            records = emptyList()
+                        }
+                    }
+                ) {
+                    Text("Удалить", color = MaterialTheme.colorScheme.error)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeleteDialog = false }) {
+                    Text("Отмена")
+                }
+            }
+        )
     }
 }
 
